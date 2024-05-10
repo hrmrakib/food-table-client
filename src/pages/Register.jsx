@@ -1,16 +1,17 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-
 import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
 import { AuthContext } from "../Contexts/AuthContextProvider";
 import { updateProfile } from "firebase/auth";
 import Swal from "sweetalert2";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 
 const RegisterPage = () => {
-  const { createUser, setUser, googleSignIn, githubSignIn } =
-    useContext(AuthContext);
+  const { createUser, setUser } = useContext(AuthContext);
   const [passwordError, setPasswordError] = useState("");
   const [anyError, setAnyError] = useState("");
+  const [inputPassword, setInputPassword] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -22,7 +23,7 @@ const RegisterPage = () => {
 
   const onSubmit = (data) => {
     const { displayName, password, email, photoURL } = data;
-
+    console.log(data);
     if (!/[A-Z]/.test(password)) {
       setPasswordError("");
       setPasswordError("Password must have at least one uppercase letter");
@@ -69,6 +70,7 @@ const RegisterPage = () => {
         });
     }
   };
+
   const handleGoogleSignIn = () => {
     setAnyError("");
     googleSignIn()
@@ -80,27 +82,32 @@ const RegisterPage = () => {
       });
   };
 
+  const handleEyePassword = () => {
+    setInputPassword((prev) => !prev);
+  };
+
   return (
-    <div className='bg-white dark:bg-gray-900 w-full'>
+    <div className='bg-white w-full'>
       <div className='w-[86%] mx-auto'>
         <div className='w-1/2  mx-auto border shadow-lg py-8 rounded-md'>
           <div>
-            <div className='bg-white dark:bg-gray-900 rounded-lg lg:rounded-l-none'>
+            <div className='bg-white rounded-lg lg:rounded-l-none'>
               <div className='p-5'>
                 <div className='pb-8'>
-                  <p className='text-3xl font-bold mb-2 text-gray-950 dark:text-white'>
-                    I'm New Here in Looming.
+                  <p className='text-3xl font-bold mb-2 text-gray-950 '>
+                    I'm New Here in{" "}
+                    <span className='text-[#f548fb]'>FoodTable</span>.
                   </p>
 
-                  <p className='font-semibold text-black/60 dark:text-white'>
+                  <p className='font-semibold text-black/60'>
                     Enter your details below
                   </p>
                 </div>
 
-                <div className='flex items-center flex-wrap md:flex-nowrap gap-4 mb-4'>
+                <div className='border w-full'>
                   <button
                     onClick={() => handleGoogleSignIn()}
-                    className='w-full max-w-md font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline'
+                    className='w-full font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline'
                   >
                     <div className='bg-white p-2 rounded-full'>
                       <svg className='w-4' viewBox='0 0 533.5 544.3'>
@@ -124,21 +131,6 @@ const RegisterPage = () => {
                     </div>
                     <span className='ml-4'>Sign In with Google</span>
                   </button>
-
-                  <button
-                    onClick={() => handleGithubSignIn()}
-                    className='w-full max-w-md font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline'
-                  >
-                    <div className='bg-white p-1 rounded-full'>
-                      <svg className='w-6' viewBox='0 0 32 32'>
-                        <path
-                          fillRule='evenodd'
-                          d='M16 4C9.371 4 4 9.371 4 16c0 5.3 3.438 9.8 8.207 11.387.602.11.82-.258.82-.578 0-.286-.011-1.04-.015-2.04-3.34.723-4.043-1.609-4.043-1.609-.547-1.387-1.332-1.758-1.332-1.758-1.09-.742.082-.726.082-.726 1.203.086 1.836 1.234 1.836 1.234 1.07 1.836 2.808 1.305 3.492 1 .11-.777.422-1.305.762-1.605-2.664-.301-5.465-1.332-5.465-5.93 0-1.313.469-2.383 1.234-3.223-.121-.3-.535-1.523.117-3.175 0 0 1.008-.32 3.301 1.23A11.487 11.487 0 0116 9.805c1.02.004 2.047.136 3.004.402 2.293-1.55 3.297-1.23 3.297-1.23.656 1.652.246 2.875.12 3.175.77.84 1.231 1.91 1.231 3.223 0 4.61-2.804 5.621-5.476 5.922.43.367.812 1.101.812 2.219 0 1.605-.011 2.898-.011 3.293 0 .32.214.695.824.578C24.566 25.797 28 21.3 28 16c0-6.629-5.371-12-12-12z'
-                        />
-                      </svg>
-                    </div>
-                    <span className='ml-4'>Sign In with GitHub</span>
-                  </button>
                 </div>
 
                 <div className='flex gap-9 relative my-5'>
@@ -151,8 +143,8 @@ const RegisterPage = () => {
                   onSubmit={handleSubmit(onSubmit)}
                   className='space-y-3 w-full '
                 >
-                  <p className='flex justify-end text-black dark:text-white'>
-                    Already a User to Looming? Please
+                  <p className='flex justify-end text-black'>
+                    Already a User to FoodTable? Please
                     <Link
                       to='/login'
                       className='text-lg font-semibold text-blue-600 ml-1 hover:underline'
@@ -163,80 +155,78 @@ const RegisterPage = () => {
 
                   <div>
                     <fieldset className='border border-solid border-gray-300 p-3 w-full rounded'>
-                      <legend className=' font-medium text-black/60 dark:text-white'>
+                      <legend className=' font-medium text-black/60'>
                         Name
                       </legend>
                       <input
                         type='text'
                         {...register("displayName", { required: true })}
                         placeholder='Your Name'
-                        className='px-4 py-1 w-full focus:outline-0 bg-white dark:bg-gray-900 text-gray-950 dark:text-white'
+                        className='px-4 py-1 w-full focus:outline-0 bg-white  text-gray-950'
                       />
                     </fieldset>
                     {errors.displayName && (
-                      <span className='text-red-600 dark:text-white'>
-                        Name is required
-                      </span>
+                      <span className='text-red-600'>Name is required</span>
                     )}
                   </div>
                   <div>
                     <fieldset className='border border-solid border-gray-300 p-3 w-full rounded'>
-                      <legend className='font-medium text-black/60 dark:text-white'>
+                      <legend className='font-medium text-black/60'>
                         Email
                       </legend>
                       <input
                         type='email'
                         {...register("email", { required: true })}
-                        placeholder='Enter password'
-                        className='px-4 py-1 w-full focus:outline-0 bg-white dark:bg-gray-900 text-gray-950 dark:text-white'
+                        placeholder='Enter email'
+                        className='px-4 py-1 w-full focus:outline-0 bg-white  text-gray-950'
                       />
                     </fieldset>
                     {errors.email && (
-                      <span className='text-red-600 dark:text-white'>
-                        Email is required
-                      </span>
+                      <span className='text-red-600'>Email is required</span>
                     )}
                   </div>
-                  <div>
+                  <div className='relative'>
                     <fieldset className='border border-solid border-gray-300 p-3 w-full rounded'>
-                      <legend className=' font-medium text-black/60 dark:text-white'>
+                      <legend className=' font-medium text-black/60'>
                         Password
                       </legend>
                       <input
-                        type='password'
+                        type={inputPassword ? "password" : "text"}
                         {...register("password", { required: true })}
-                        placeholder='password'
-                        className='px-4 py-1 w-full focus:outline-0 bg-white dark:bg-gray-900 text-gray-950 dark:text-white'
+                        placeholder='Enter password'
+                        className='px-4 py-1 w-full focus:outline-0 bg-white  text-gray-950'
                       />
+                      <span
+                        className='absolute right-3 *:text-xl cursor-pointer'
+                        onClick={handleEyePassword}
+                      >
+                        {inputPassword ? <FaEye /> : <FaEyeSlash />}
+                      </span>
                     </fieldset>
                     {passwordError}
                     {errors.password && (
-                      <span className='text-red-600 dark:text-white'>
-                        Password is required
-                      </span>
+                      <span className='text-red-600'>Password is required</span>
                     )}
                   </div>
                   <div>
                     <fieldset className='border border-solid border-gray-300 p-3 w-full rounded'>
-                      <legend className=' font-medium text-black/60 dark:text-white'>
+                      <legend className=' font-medium text-black/60'>
                         PhotoURL
                       </legend>
                       <input
                         type='text'
                         {...register("photoURL", { required: true })}
                         placeholder='Enter PhotoURL'
-                        className='px-4 py-1 w-full focus:outline-0 bg-white dark:bg-gray-900 text-gray-950 dark:text-white'
+                        className='px-4 py-1 w-full focus:outline-0 bg-white  text-gray-950'
                       />
                     </fieldset>
                     {errors.photoURL && (
-                      <span className='text-red-600 dark:text-white'>
-                        PhotoURL is required
-                      </span>
+                      <span className='text-red-600'>PhotoURL is required</span>
                     )}
                   </div>
-                  <p className='text-red-600 dark:text-white'>{anyError}</p>
+                  <p className='text-red-600'>{anyError}</p>
 
-                  <button className='w-full mt-3 px-3 py-2 bg-[#FF497C] hover:bg-[#ab3154] rounded text-white font-semibold'>
+                  <button className='w-full text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2'>
                     Sign Up
                   </button>
                 </form>

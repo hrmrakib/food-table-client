@@ -1,7 +1,11 @@
 import { Link, NavLink } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-const user = true;
+import { AuthContext } from "../Contexts/AuthContextProvider";
+import auth from "../config/firebase.config";
+
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+
   const navLinks = (
     <>
       <li>
@@ -16,9 +20,13 @@ const Navbar = () => {
     </>
   );
 
+  const handleLogOut = () => {
+    logOut(auth);
+  };
+
   return (
-    <nav className='bg-white dark:bg-gray-900 py-4'>
-      <div className='w-[90%] mx-auto navbar bg-white dark:bg-gray-900'>
+    <nav className='bg-white  py-4'>
+      <div className='w-[90%] mx-auto navbar bg-white '>
         <div className='navbar-start'>
           <div className='dropdown'>
             <div tabIndex={0} role='button' className='btn btn-ghost lg:hidden'>
@@ -50,37 +58,33 @@ const Navbar = () => {
           </Link>
         </div>
         <div className='navbar-center hidden lg:flex'>
-          <ul className='menu menu-horizontal px-1 *:text-lg text-black dark:text-white'>
+          <ul className='menu menu-horizontal px-1 *:text-lg text-black '>
             {navLinks}
           </ul>
         </div>
         <div className='navbar-end'>
-          {/* {user ? (
+          {user ? (
             user && (
-              <div className='dropdown dropdown-hover'>
-                <div tabIndex={0} role='button'>
-                  <img
-                    className='size-7 rounded-full mr-2'
-                    src={user?.photoURL}
-                    alt=''
-                  />
-                </div>
-                <ul
+              <div className='flex items-center gap-4'>
+                <img
+                  className='size-12 rounded-full'
+                  src={user?.photoURL}
+                  alt=''
+                />
+                <button
                   onClick={handleLogOut}
-                  tabIndex={0}
-                  className='dropdown-content z-[1] menu p-1 shadow bg-base-100 rounded-box w-max'
+                  type='button'
+                  class='text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2'
                 >
-                  <li>
-                    <a>Log Out</a>
-                  </li>
-                </ul>
+                  Logout
+                </button>
               </div>
             )
           ) : (
             <Link to='/login'>
               <button className='btn btn-outline mr-2'>Login</button>
             </Link>
-          )} */}
+          )}
         </div>
       </div>
     </nav>
