@@ -6,6 +6,8 @@ import { updateProfile } from "firebase/auth";
 import Swal from "sweetalert2";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import axios from "axios";
+import { baseURL } from "../utils/url";
 
 const RegisterPage = () => {
   const { createUser, setUser } = useContext(AuthContext);
@@ -23,7 +25,7 @@ const RegisterPage = () => {
 
   const onSubmit = (data) => {
     const { displayName, password, email, photoURL } = data;
-    console.log(data);
+
     if (!/[A-Z]/.test(password)) {
       setPasswordError("");
       setPasswordError("Password must have at least one uppercase letter");
@@ -42,6 +44,9 @@ const RegisterPage = () => {
 
       createUser(email, password)
         .then((result) => {
+          axios.post(`${baseURL}/users`, data).then((res) => {
+            console.log("save user data", res.data);
+          });
           updateProfile(result.user, {
             displayName: displayName,
             photoURL: photoURL,
