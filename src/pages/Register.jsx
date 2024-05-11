@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Contexts/AuthContextProvider";
 import { updateProfile } from "firebase/auth";
 import Swal from "sweetalert2";
@@ -8,14 +8,21 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
 import { baseURL } from "../utils/url";
+import Loading from "../components/Loading";
 
 const RegisterPage = () => {
-  const { createUser, setUser } = useContext(AuthContext);
+  const { createUser, setUser, user, loading } = useContext(AuthContext);
   const [passwordError, setPasswordError] = useState("");
   const [anyError, setAnyError] = useState("");
   const [inputPassword, setInputPassword] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [navigate, user]);
 
   const {
     register,
@@ -58,7 +65,7 @@ const RegisterPage = () => {
             });
           });
 
-          navigate(location.state ? location?.state : "/");
+          navigate(location.state ? location?.state : "/", { replace: true });
 
           Swal.fire({
             position: "top",
@@ -90,6 +97,8 @@ const RegisterPage = () => {
   const handleEyePassword = () => {
     setInputPassword((prev) => !prev);
   };
+
+  if (user || loading) return <Loading />;
 
   return (
     <div className='bg-white w-full'>

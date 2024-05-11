@@ -1,15 +1,21 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AuthContext } from "../Contexts/AuthContextProvider";
 
 const LoginPage = () => {
-  const { signIn, googleSignIn } = useContext(AuthContext);
+  const { signIn, googleSignIn, user, loading } = useContext(AuthContext);
   const [passwordError, setPasswordError] = useState("");
   const [authError, setAuthError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [navigate, user]);
 
   const {
     register,
@@ -35,7 +41,7 @@ const LoginPage = () => {
           showConfirmButton: false,
           timer: 1000,
         });
-        navigate(location.state ? location?.state : "/");
+        navigate(location.state ? location?.state : "/", { replace: true });
       })
       .catch((err) => {
         setAuthError(err.message);
@@ -53,16 +59,7 @@ const LoginPage = () => {
       });
   };
 
-  const handleGithubSignIn = () => {
-    setAuthError("");
-    githubSignIn()
-      .then(() => {
-        navigate(location.state ? location?.state : "/");
-      })
-      .catch((err) => {
-        setAuthError(err);
-      });
-  };
+  if (user || loading) return;
 
   return (
     <div className='w-full bg-white '>

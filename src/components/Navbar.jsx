@@ -79,13 +79,13 @@ const Navbar = () => {
                     className='flex flex-col gap-3  dropdown-content z-[1] menu shadow bg-base-100 rounded-box w-max'
                   >
                     <Link
-                      to='/'
+                      to='/myAddedFood'
                       className='hover:text-white hover:bg-[#de3b3b] px-2 py-1 rounded'
                     >
                       <li>My added food items</li>
                     </Link>
                     <Link
-                      to='/'
+                      to='/addFoodItem'
                       className='hover:text-white hover:bg-[#2dcf30] px-2 py-1 rounded'
                     >
                       <li>Add a food item</li>
