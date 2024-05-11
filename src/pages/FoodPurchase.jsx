@@ -3,13 +3,18 @@ import { useForm } from "react-hook-form";
 import { baseURL } from "../utils/url";
 import Swal from "sweetalert2";
 import { AuthContext } from "../Contexts/AuthContextProvider";
+import { useLoaderData, useNavigate } from "react-router-dom";
 
 const FoodPurchase = () => {
+  const navigate = useNavigate();
   const [selectedCountry, setSelectedCountry] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [existOrderId, setExistOrderId] = useState();
   const { user } = useContext(AuthContext);
   const getUserEmail = user?.email;
   const getUserName = user?.displayName;
+
+  const foodForPurchase = useLoaderData();
 
   useEffect(() => {
     document.title = "FoodTable | Purchase Food";
@@ -19,11 +24,31 @@ const FoodPurchase = () => {
     register,
     handleSubmit,
     watch,
-    reset,
     formState: { errors },
   } = useForm();
 
   const watchMysel = watch("country");
+
+  useEffect(() => {
+    fetch(`${baseURL}/find-exist-order/${foodForPurchase._id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.foodId);
+        setExistOrderId(parseInt(data.foodId));
+      });
+  }, [foodForPurchase._id]);
+
+  useEffect(() => {
+    if (parseInt(foodForPurchase.quantity) === 0) {
+      Swal.fire({
+        position: "top",
+        icon: "warning",
+        title: "This food isn't available!",
+        showConfirmButton: false,
+        timer: 3500,
+      });
+    }
+  }, [foodForPurchase]);
 
   useEffect(() => {
     setSelectedCountry("");
@@ -33,66 +58,78 @@ const FoodPurchase = () => {
     filtraPavimento();
   }, [watchMysel]);
 
-  const handleAddSpot = (data) => {
+  const handlePurchase = (data) => {
     setIsButtonDisabled(true);
-    const {
-      averageCost,
-      country,
-      description,
-      location,
-      photoURL,
-      seasonality,
-      spotName,
-      totaVisitorsPerYear,
-      travelTime,
-    } = data;
 
-    const spotInfo = {
-      averageCost,
-      country,
-      description,
-      location,
-      photoURL,
-      seasonality,
-      spotName,
-      totaVisitorsPerYear,
-      travelTime,
-      userEmail: getUserEmail,
-      userName: getUserName,
+    const { buyerEmail, buyerName, buyingDate, foodName, price, quantity } =
+      data;
+
+    const foodInfo = {
+      buyerEmail,
+      buyerName,
+      buyingDate,
+      foodName,
+      price,
+      quantity,
+      foodId: foodForPurchase._id,
+      imageURL: foodForPurchase.imageURL,
     };
 
-    fetch(`${baseURL}/allspot`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(spotInfo),
-    })
+    fetch(`${baseURL}/findEmail/${foodForPurchase._id}`)
       .then((res) => res.json())
       .then((data) => {
-        if (data.insertedId) {
+        const resEmail = data?.userEmail;
+        if (resEmail === buyerEmail) {
           Swal.fire({
             position: "top",
-            icon: "success",
-            title: "Successfully Added a Tourist Spot!",
+            icon: "warning",
+            title: "Can't buy your own food!",
             showConfirmButton: false,
-            timer: 1500,
+            timer: 3500,
           });
-          reset();
-          setTimeout(() => {
-            setIsButtonDisabled(false);
-          }, 3000);
+          navigate("/allFood");
+        } else if (existOrderId === parseInt(foodForPurchase._id)) {
+          Swal.fire({
+            position: "top",
+            icon: "warning",
+            title: "Already Purchased this food!",
+            showConfirmButton: false,
+            timer: 3500,
+          });
+          navigate("/allFood");
+        } else {
+          console.log("try to add some food!");
+          fetch(`${baseURL}/orderFood`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(foodInfo),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.insertedId) {
+                Swal.fire({
+                  position: "top",
+                  icon: "success",
+                  title: "Successfully Purchased The Food!",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                navigate("/allFood");
+              }
+            });
         }
       });
   };
 
   return (
-    <div className='bg-white '>
-      <div className='w-[88%] mx-auto py-16 bg-white '>
+    <div className='bg-white'>
+      <div className='w-[90%] mx-auto py-16 bg-white '>
         <h2 className='text-4xl font-bold text-center mb-9 text-gray-900 '>
           Purchase Your Food
         </h2>
-        <form onSubmit={handleSubmit(handleAddSpot)}>
+        <form onSubmit={handleSubmit(handlePurchase)}>
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-10'>
             <div className='shadow-sm bg-white '>
               <fieldset className='border border-solid border-gray-300 p-3 w-full rounded-lg'>
@@ -102,7 +139,8 @@ const FoodPurchase = () => {
                 <input
                   type='text'
                   {...register("foodName", { required: true })}
-                  placeholder='Food Name'
+                  defaultValue={foodForPurchase.foodName}
+                  readOnly
                   className='px-4 py-1 w-full focus:outline-0 text-black  bg-white rounded-md '
                 />
               </fieldset>
@@ -120,7 +158,8 @@ const FoodPurchase = () => {
                 <input
                   type='text'
                   {...register("price", { required: true })}
-                  placeholder='Food Price'
+                  defaultValue={foodForPurchase.price}
+                  readOnly
                   className='px-4 py-1 w-full focus:outline-0 text-black  bg-white rounded-md '
                 />
               </fieldset>
@@ -139,7 +178,8 @@ const FoodPurchase = () => {
                 <input
                   type='text'
                   {...register("quantity", { required: true })}
-                  placeholder='Quantity'
+                  defaultValue={foodForPurchase.quantity}
+                  readOnly
                   className='px-4 py-1 w-full focus:outline-0 text-black  bg-white rounded-md '
                 />
               </fieldset>
@@ -157,7 +197,8 @@ const FoodPurchase = () => {
                 <input
                   type='text'
                   {...register("buyerName", { required: true })}
-                  placeholder='Buyer Name'
+                  defaultValue={getUserName}
+                  readOnly
                   className='px-4 py-1 w-full focus:outline-0 text-black  bg-white rounded-md '
                 />
               </fieldset>
@@ -175,7 +216,8 @@ const FoodPurchase = () => {
                 <input
                   type='text'
                   {...register("buyerEmail", { required: true })}
-                  placeholder='Buyer Email'
+                  defaultValue={getUserEmail}
+                  readOnly
                   className='px-4 py-1 w-full focus:outline-0 text-black  bg-white rounded-md '
                 />
               </fieldset>
@@ -195,7 +237,7 @@ const FoodPurchase = () => {
                 <input
                   type='text'
                   {...register("buyingDate", { required: true })}
-                  placeholder='Buying Date'
+                  defaultValue={Date.now().toString()}
                   className='px-4 py-1 w-full focus:outline-0 text-black  bg-white rounded-md '
                 />
               </fieldset>
@@ -208,7 +250,9 @@ const FoodPurchase = () => {
 
             <div className='lg:col-span-2'>
               <button
-                disabled={isButtonDisabled}
+                disabled={
+                  parseInt(foodForPurchase.quantity) === 0 ? true : false
+                }
                 className='w-full mt-3 px-3 py-5 text-lg bg-[#FF497C] hover:bg-[#ab3154] rounded text-white font-semibold'
               >
                 Purchase

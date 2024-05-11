@@ -1,31 +1,28 @@
 import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../Contexts/AuthContextProvider";
 import { baseURL } from "../utils/url";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import { AuthContext } from "../Contexts/AuthContextProvider";
-import Loading from "../components/Loading";
 
-const MyAddedFood = () => {
-  const [myAddedFood, setMyAddedFood] = useState([]);
+const MyOrderedFood = () => {
+  const [listedSpot, setListedSpot] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const { user } = useContext(AuthContext);
-  const userEmail = user?.email;
-
-  console.log(userEmail);
+  const userEmail = user.email;
 
   useEffect(() => {
-    document.title = "FoodTable | My Listed Food";
+    document.title = "FoodTable | My Ordered Food";
   }, []);
 
   useEffect(() => {
-    fetch(`${baseURL}/my-added-food/${userEmail}`)
+    fetch(`${baseURL}/my-ordered-food/${userEmail}`)
       .then((res) => res.json())
       .then((data) => {
-        setMyAddedFood(data);
+        setListedSpot(data);
         setLoading(false);
       });
-  }, [myAddedFood]);
+  }, []);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -51,8 +48,8 @@ const MyAddedFood = () => {
                 showConfirmButton: false,
                 timer: 1500,
               });
-              const filtered = myAddedFood.filter((spot) => spot._id !== id);
-              setMyAddedFood(filtered);
+              const filtered = listedSpot.filter((spot) => spot._id !== id);
+              setListedSpot(filtered);
             }
           });
       }
@@ -60,7 +57,13 @@ const MyAddedFood = () => {
   };
 
   if (loading) {
-    return <Loading />;
+    return (
+      <div className='bg-white  flex items-center justify-center h-screen w-full'>
+        <div className='bg-gray-600 size-16 rounded-full flex items-center justify-center'>
+          <span className='loading loading-spinner loading-lg text-center text-white'></span>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -69,7 +72,7 @@ const MyAddedFood = () => {
         <div className='mb-12'>
           <div>
             <h2 className='text-center text-3xl text-gray-900 font-bold'>
-              I have added the food item!
+              I have added the tourist spot!
             </h2>
           </div>
         </div>
@@ -78,7 +81,7 @@ const MyAddedFood = () => {
             <table className='table'>
               {/* head */}
               <thead>
-                <tr className='text-gray-900 font-semibold text-xl'>
+                <tr className='text-gray-900  font-semibold text-xl'>
                   <th>No</th>
                   <th>Name</th>
                   <th>Price</th>
@@ -87,52 +90,43 @@ const MyAddedFood = () => {
                 </tr>
               </thead>
               <tbody>
-                {myAddedFood.length === 0 ? (
-                  <Link to='/addFoodItem'>
-                    <span className='text-center text-lg text-blue-500 underline'>
-                      Go to Add Food Page
-                    </span>
-                  </Link>
-                ) : (
-                  ""
-                )}
                 {/* row 1 */}
-                {myAddedFood.map((food, i) => (
-                  <tr key={food?._id}>
-                    <th className='text-green-400  font-semibold text-xl'>
+                {listedSpot.map((spot, i) => (
+                  <tr key={spot?._id}>
+                    <th className='text-green-400 font-semibold text-xl'>
                       {i + 1}
                     </th>
                     <td>
                       <div className='flex items-center gap-3'>
                         <div className='avatar'>
                           <div className='w-16 h-12'>
-                            <img src={food?.imageURL} alt='' />
+                            <img src={spot?.photoURL} alt='' />
                           </div>
                         </div>
                         <div>
-                          <div className='font-bold md:text-lg text-black'>
-                            {food?.foodName}
+                          <div className='font-bold md:text-lg text-black '>
+                            {spot?.spotName}
                           </div>
-                          {/* <div className='text-sm text-gray-700 '>
+                          <div className='text-sm text-gray-700  '>
                             {spot?.location}, {spot?.country}
-                          </div> */}
+                          </div>
                         </div>
                       </div>
                     </td>
-                    <td className='text-gray-800 font-semibold text-lg'>
-                      ${food?.price}
+                    <td className='text-gray-800  font-semibold text-lg'>
+                      ${spot?.averageCost}
                     </td>
-                    <td className='text-gray-800 font-semibold text-lg'>
-                      {/* {spot?.travelTime} */}fkjd
+                    <td className='text-gray-800  font-semibold text-lg'>
+                      {spot?.travelTime}
                     </td>
                     <th>
-                      <Link to={`/updateMyList/${food._id}`}>
+                      <Link to={`/updateMyList/${spot._id}`}>
                         <button className='bg-[#f52dd0] mr-3 text-white px-4 py-2 rounded-md'>
                           Update
                         </button>
                       </Link>
                       <button
-                        onClick={() => handleDelete(food._id)}
+                        onClick={() => handleDelete(spot._id)}
                         className='bg-[#f64a2f] text-white px-4 py-2 rounded-md'
                       >
                         Delete
@@ -149,4 +143,4 @@ const MyAddedFood = () => {
   );
 };
 
-export default MyAddedFood;
+export default MyOrderedFood;

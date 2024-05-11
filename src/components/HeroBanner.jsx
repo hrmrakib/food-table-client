@@ -14,9 +14,10 @@ const HeroBanner = () => {
           Delicious Recipes
         </h2>
         <p className='text-gray-100 text-sm lg:text-lg max-w-md mb-3 lg:mb-6'>
-          inappropriate behavior is often laughed off as “boys will be boys,”
-          women face higher conduct standards especially in the workplace.
-          That’s why it’s crucial that, as women.
+          Indulge in a symphony of flavors with tantalizing collection of
+          Delicious Recipes. From sizzling stir-fries to decadent desserts, each
+          dish tells a story of culinary mastery. Embark on a culinary journey
+          and awaken your taste.
         </p>
         <Link to='/allFood'>
           <button

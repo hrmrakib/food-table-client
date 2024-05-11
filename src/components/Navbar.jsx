@@ -91,7 +91,7 @@ const Navbar = () => {
                       <li>Add a food item</li>
                     </Link>
                     <Link
-                      to='/'
+                      to='/myOrderedFood'
                       className='hover:text-white hover:bg-[#ee4088] px-2 py-1 rounded'
                     >
                       <li>My ordered food items</li>

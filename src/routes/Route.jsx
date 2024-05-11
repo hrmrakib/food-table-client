@@ -12,6 +12,7 @@ import PrivateRoute from "./PrivateRoute";
 import { baseURL } from "../utils/url";
 import MyAddedFood from "../pages/MyAddedFood";
 import SingleFood from "../pages/SingleFood";
+import MyOrderedFood from "../pages/MyOrderedFood";
 
 const router = createBrowserRouter([
   {
@@ -37,8 +38,9 @@ const router = createBrowserRouter([
         loader: () => fetch(`${baseURL}/allFood`),
       },
       {
-        path: "/foodPurchase",
+        path: "/foodPurchase/:id",
         element: <FoodPurchase />,
+        loader: ({ params }) => fetch(`${baseURL}/single-food/${params.id}`),
       },
       {
         path: "/gallery",
@@ -60,6 +62,10 @@ const router = createBrowserRouter([
         path: "/singleFood/:id",
         element: <SingleFood />,
         loader: ({ params }) => fetch(`${baseURL}/single-food/${params.id}`),
+      },
+      {
+        path: "/myOrderedFood",
+        element: <MyOrderedFood />,
       },
     ],
   },
