@@ -4,6 +4,8 @@ import { baseURL } from "../utils/url";
 import Swal from "sweetalert2";
 import { AuthContext } from "../Contexts/AuthContextProvider";
 import { useLoaderData, useNavigate } from "react-router-dom";
+import date from "date-and-time";
+const now = new Date();
 
 const FoodPurchase = () => {
   const navigate = useNavigate();
@@ -241,7 +243,7 @@ const FoodPurchase = () => {
                 <input
                   type='text'
                   {...register("buyingDate", { required: true })}
-                  defaultValue={Date.now().toString()}
+                  defaultValue={date.format(now, "YYYY/MM/DD HH:mm:ss")}
                   className='px-4 py-1 w-full focus:outline-0 text-black  bg-white rounded-md '
                 />
               </fieldset>
