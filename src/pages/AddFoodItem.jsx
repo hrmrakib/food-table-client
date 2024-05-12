@@ -61,6 +61,7 @@ const AddFoodItem = () => {
       quantity,
       userEmail,
       userName,
+      orderCount: 0,
     };
 
     fetch(`${baseURL}/myFoods`, {

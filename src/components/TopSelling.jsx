@@ -41,7 +41,7 @@ const TopSelling = () => {
                 </p>
               </div>
               <div>
-                <Link to={`/tourspot-detail/`}>
+                <Link to={`/singleFood/${12}`}>
                   <button className='w-full mt-3 px-3 py-2 bg-[#FF497C] hover:bg-[#ab3154] rounded text-white font-semibold'>
                     View Details
                   </button>

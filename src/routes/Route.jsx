@@ -39,7 +39,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/foodPurchase/:id",
-        element: <FoodPurchase />,
+        element: (
+          <PrivateRoute>
+            <FoodPurchase />
+          </PrivateRoute>
+        ),
         loader: ({ params }) => fetch(`${baseURL}/single-food/${params.id}`),
       },
       {
@@ -56,16 +60,28 @@ const router = createBrowserRouter([
       },
       {
         path: "/myAddedFood",
-        element: <MyAddedFood />,
+        element: (
+          <PrivateRoute>
+            <MyAddedFood />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/singleFood/:id",
-        element: <SingleFood />,
+        element: (
+          <PrivateRoute>
+            <SingleFood />
+          </PrivateRoute>
+        ),
         loader: ({ params }) => fetch(`${baseURL}/single-food/${params.id}`),
       },
       {
         path: "/myOrderedFood",
-        element: <MyOrderedFood />,
+        element: (
+          <PrivateRoute>
+            <MyOrderedFood />
+          </PrivateRoute>
+        ),
       },
     ],
   },

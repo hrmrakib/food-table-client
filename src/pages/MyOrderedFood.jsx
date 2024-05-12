@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const MyOrderedFood = () => {
-  const [listedSpot, setListedSpot] = useState([]);
+  const [myOrderedFood, setMyOrderedFood] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const { user } = useContext(AuthContext);
@@ -19,7 +19,8 @@ const MyOrderedFood = () => {
     fetch(`${baseURL}/my-ordered-food/${userEmail}`)
       .then((res) => res.json())
       .then((data) => {
-        setListedSpot(data);
+        console.log(data);
+        setMyOrderedFood(data);
         setLoading(false);
       });
   }, []);
@@ -91,8 +92,8 @@ const MyOrderedFood = () => {
               </thead>
               <tbody>
                 {/* row 1 */}
-                {listedSpot.map((spot, i) => (
-                  <tr key={spot?._id}>
+                {myOrderedFood.map((food, i) => (
+                  <tr key={food?._id}>
                     <th className='text-green-400 font-semibold text-xl'>
                       {i + 1}
                     </th>
@@ -100,27 +101,27 @@ const MyOrderedFood = () => {
                       <div className='flex items-center gap-3'>
                         <div className='avatar'>
                           <div className='w-16 h-12'>
-                            <img src={spot?.photoURL} alt='' />
+                            <img src={food?.imageURL} alt='' />
                           </div>
                         </div>
                         <div>
                           <div className='font-bold md:text-lg text-black '>
-                            {spot?.spotName}
+                            {food?.foodName}
                           </div>
-                          <div className='text-sm text-gray-700  '>
+                          {/* <div className='text-sm text-gray-700  '>
                             {spot?.location}, {spot?.country}
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     </td>
                     <td className='text-gray-800  font-semibold text-lg'>
-                      ${spot?.averageCost}
+                      ${food?.price}
                     </td>
                     <td className='text-gray-800  font-semibold text-lg'>
-                      {spot?.travelTime}
+                      {food?.category}
                     </td>
                     <th>
-                      <Link to={`/updateMyList/${spot._id}`}>
+                      <Link to={`/updateMyList/${food._id}`}>
                         <button className='bg-[#f52dd0] mr-3 text-white px-4 py-2 rounded-md'>
                           Update
                         </button>

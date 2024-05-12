@@ -54,6 +54,7 @@ const RegisterPage = () => {
           axios.post(`${baseURL}/users`, data).then((res) => {
             console.log("save user data", res.data);
           });
+
           updateProfile(result.user, {
             displayName: displayName,
             photoURL: photoURL,
@@ -85,8 +86,16 @@ const RegisterPage = () => {
 
   const handleGoogleSignIn = () => {
     setAnyError("");
-    googleSignIn()
-      .then(() => {
+    const result = googleSignIn()
+      .then(async () => {
+        const { data } = await axios.post(
+          `${baseURL}/jwt`,
+          {
+            email: result?.user?.email,
+          },
+          { withCredentials: true }
+        );
+        console.log({ result, data });
         navigate(location.state ? location?.state : "/");
       })
       .catch((err) => {

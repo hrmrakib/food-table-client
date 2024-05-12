@@ -13,19 +13,20 @@ const MyAddedFood = () => {
   const userEmail = user?.email;
 
   console.log(userEmail);
+  console.log("jumping .....");
 
   useEffect(() => {
     document.title = "FoodTable | My Listed Food";
   }, []);
 
   useEffect(() => {
-    fetch(`${baseURL}/my-added-food/${userEmail}`)
+    fetch(`${baseURL}/my-added-food/${userEmail}`, { credentials: "include" })
       .then((res) => res.json())
       .then((data) => {
         setMyAddedFood(data);
         setLoading(false);
       });
-  }, [myAddedFood]);
+  }, []);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -97,7 +98,7 @@ const MyAddedFood = () => {
                   ""
                 )}
                 {/* row 1 */}
-                {myAddedFood.map((food, i) => (
+                {myAddedFood?.map((food, i) => (
                   <tr key={food?._id}>
                     <th className='text-green-400  font-semibold text-xl'>
                       {i + 1}

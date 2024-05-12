@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AuthContext } from "../Contexts/AuthContextProvider";
+import axios from "axios";
+import { baseURL } from "../utils/url";
 
 const LoginPage = () => {
   const { signIn, googleSignIn, user, loading } = useContext(AuthContext);
@@ -23,6 +25,7 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm();
 
+  // login with email and password
   const handleLogin = (data) => {
     const { email, password } = data;
 
@@ -48,6 +51,7 @@ const LoginPage = () => {
       });
   };
 
+  // google signin
   const handleGoogleSignIn = () => {
     setAuthError("");
     googleSignIn()

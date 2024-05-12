@@ -88,16 +88,20 @@ const FoodPurchase = () => {
             timer: 3500,
           });
           navigate("/allFood");
-        } else if (existOrderId === parseInt(foodForPurchase._id)) {
-          Swal.fire({
-            position: "top",
-            icon: "warning",
-            title: "Already Purchased this food!",
-            showConfirmButton: false,
-            timer: 3500,
-          });
-          navigate("/allFood");
-        } else {
+        }
+        // has a bug below code (one user buy this food, another user can't buy)
+
+        // else if (existOrderId === parseInt(foodForPurchase._id)) {
+        //   Swal.fire({
+        //     position: "top",
+        //     icon: "warning",
+        //     title: "Already Purchased this food!",
+        //     showConfirmButton: false,
+        //     timer: 3500,
+        //   });
+        //   navigate("/allFood");
+        // }
+        else {
           console.log("try to add some food!");
           fetch(`${baseURL}/orderFood`, {
             method: "POST",
@@ -253,7 +257,7 @@ const FoodPurchase = () => {
                 disabled={
                   parseInt(foodForPurchase.quantity) === 0 ? true : false
                 }
-                className='w-full mt-3 px-3 py-5 text-lg bg-[#FF497C] hover:bg-[#ab3154] rounded text-white font-semibold'
+                className='disabled:cursor-not-allowed w-full mt-3 px-3 py-5 text-lg bg-[#FF497C] hover:bg-[#ab3154] rounded text-white font-semibold'
               >
                 Purchase
               </button>
