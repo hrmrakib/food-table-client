@@ -35,7 +35,6 @@ const FoodPurchase = () => {
     fetch(`${baseURL}/find-exist-order/${foodForPurchase._id}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.foodId);
         setExistOrderId(parseInt(data.foodId));
       });
   }, [foodForPurchase._id]);
@@ -114,7 +113,15 @@ const FoodPurchase = () => {
           })
             .then((res) => res.json())
             .then((data) => {
+              console.log(data);
               if (data.insertedId) {
+                fetch(`${baseURL}/increaseOrderCount/${foodForPurchase._id}`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }).then((res) => console.log(res.ok));
+
                 Swal.fire({
                   position: "top",
                   icon: "success",

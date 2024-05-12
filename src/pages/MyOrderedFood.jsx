@@ -70,7 +70,7 @@ const MyOrderedFood = () => {
   return (
     <div className='bg-white  min-h-screen'>
       <div className='md:w-[80%] mx-auto'>
-        <div className='mb-12'>
+        <div className='mb-12 mt-10'>
           <div>
             <h2 className='text-center text-3xl text-gray-900 font-bold'>
               I have added the tourist spot!
