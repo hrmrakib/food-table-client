@@ -5,7 +5,7 @@ const bannerImg = "https://i.ibb.co/L99zFxP/food.jpg";
 const HeroBanner = () => {
   return (
     <div className='relative'>
-      <img className='w-full h-80 lg:h-[600px]' src={bannerImg} alt='' />
+      <img className='w-full h-80 lg:h-[650px]' src={bannerImg} alt='' />
       <div className='absolute bottom-2 left-3 lg:bottom-28 lg:left-28'>
         <p className='text-lg font-semibold text-gray-100'>
           WIDE OPTIONS OF CHOICE

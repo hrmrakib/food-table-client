@@ -20,6 +20,8 @@ const Navbar = () => {
     </>
   );
 
+  console.log(user, user?.imageURL);
+
   const handleLogOut = () => {
     logOut(auth);
   };

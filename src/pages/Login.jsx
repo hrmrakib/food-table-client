@@ -66,7 +66,7 @@ const LoginPage = () => {
   if (user || loading) return;
 
   return (
-    <div className='w-full bg-white '>
+    <div className='w-full bg-white my-16'>
       <div className='w-[86%] mx-auto '>
         <div className='w-1/2 bg-white  mx-auto border shadow-lg py-8 rounded-md'>
           <div>

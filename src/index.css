@@ -15,10 +15,7 @@ body {
   align-items: center;
   margin-top: 75px;
 }
-.image {
-  width: 450px;
-  position: relative;
-}
+
 .image img {
   width: 100%;
   display: block;
