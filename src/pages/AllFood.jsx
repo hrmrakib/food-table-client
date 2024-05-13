@@ -12,13 +12,14 @@ const AllFood = () => {
   const [searchResults, setSearchResults] = useState([]);
   const loadedFood = useLoaderData();
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
     try {
-      const result = axios.post(`${baseURL}/search-food`, { searchQuery });
-      // setSearchResults(result.data);
-      console.log(result);
-      console.log(result.data);
+      const { data } = await axios.get(
+        `${baseURL}/search-food?foodName=${searchQuery}`
+      );
+      setSearchResults(data);
+      console.log(data);
     } catch (error) {
       console.log({ message: error });
     }
@@ -87,49 +88,51 @@ const AllFood = () => {
       <div className='w-[90%] mx-auto'>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 my-16'>
           {/* ((displayReadBooks.length && displayReadBooks) || readBooks) */}
-          {loadedFood.map((food) => (
-            <div key={food._id}>
-              <div className='relative shadow-lg z-0'>
-                <img
-                  className='w-full h-64 rounded-xl'
-                  src={food.imageURL}
-                  alt=''
-                />
-                <FaRegHeart className='absolute top-3 right-3 text-3xl bg-gray-700 text-white p-2 rounded-lg opacity-75' />
-              </div>
-
-              <div className='relative bg-white  text-gray-950  shadow-xl px-5 py-4 rounded-lg -mt-12 z-10'>
-                <h2 className='text-xl font-bold mb-3 text-gray-950 '>
-                  {food.foodName}
-                </h2>
-
-                <div className='flex items-center gap-2 pb-3 border-b-2'>
-                  <p>
-                    Category:{" "}
-                    <span className='text-orange-500 font-semibold'>
-                      {food.category}
-                    </span>
-                  </p>
+          {((searchResults.length && searchResults) || loadedFood).map(
+            (food) => (
+              <div key={food._id}>
+                <div className='relative shadow-lg z-0'>
+                  <img
+                    className='w-full h-64 rounded-xl'
+                    src={food.imageURL}
+                    alt=''
+                  />
+                  <FaRegHeart className='absolute top-3 right-3 text-3xl bg-gray-700 text-white p-2 rounded-lg opacity-75' />
                 </div>
 
-                <div className='flex justify-between items-center mt-4'>
-                  <div>
-                    <p className='flex items-center'>
-                      <MdAttachMoney />
-                      {food.price}
+                <div className='relative bg-white  text-gray-950  shadow-xl px-5 py-4 rounded-lg -mt-12 z-10'>
+                  <h2 className='text-xl font-bold mb-3 text-gray-950 '>
+                    {food.foodName}
+                  </h2>
+
+                  <div className='flex items-center gap-2 pb-3 border-b-2'>
+                    <p>
+                      Category:{" "}
+                      <span className='text-orange-500 font-semibold'>
+                        {food.category}
+                      </span>
                     </p>
                   </div>
-                  <div>
-                    <Link to={`/singleFood/${food._id}`}>
-                      <button className='w-full mt-3 px-3 py-2 bg-[#FF497C] hover:bg-[#ab3154] rounded text-white font-semibold'>
-                        View Details
-                      </button>
-                    </Link>
+
+                  <div className='flex justify-between items-center mt-4'>
+                    <div>
+                      <p className='flex items-center'>
+                        <MdAttachMoney />
+                        {food.price}
+                      </p>
+                    </div>
+                    <div>
+                      <Link to={`/singleFood/${food._id}`}>
+                        <button className='w-full mt-3 px-3 py-2 bg-[#FF497C] hover:bg-[#ab3154] rounded text-white font-semibold'>
+                          View Details
+                        </button>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            )
+          )}
         </div>
       </div>
     </div>
