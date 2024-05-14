@@ -19,7 +19,6 @@ const MyOrderedFood = () => {
     fetch(`${baseURL}/my-ordered-food/${userEmail}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setMyOrderedFood(data);
         setLoading(false);
       });

@@ -19,9 +19,9 @@ const AllFood = () => {
         `${baseURL}/search-food?foodName=${searchQuery}`
       );
       setSearchResults(data);
-      console.log(data);
+      // console.log(data);
     } catch (error) {
-      console.log({ message: error });
+      // console.log({ message: error });
     }
   };
 

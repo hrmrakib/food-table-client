@@ -37,7 +37,7 @@ const AddFoodItem = () => {
   const handleAddFood = (data) => {
     setIsButtonDisabled(true);
 
-    console.log(data);
+    // console.log(data);
 
     const {
       category,

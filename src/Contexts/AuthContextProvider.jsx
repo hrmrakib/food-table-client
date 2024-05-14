@@ -52,7 +52,7 @@ const AuthContextProvider = ({ children }) => {
             withCredentials: true,
           })
           .then((res) => {
-            console.log("currentUser access token", res.data);
+            // console.log("currentUser access token", res.data);
           });
       } else {
         axios
@@ -60,7 +60,7 @@ const AuthContextProvider = ({ children }) => {
             withCredentials: true,
           })
           .then((res) => {
-            console.log(res.data);
+            // console.log(res.data);
           });
       }
     });

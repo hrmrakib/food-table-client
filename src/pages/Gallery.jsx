@@ -6,28 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { baseURL } from "../utils/url";
 
 const topBannerImg = "https://i.ibb.co/4YtYVVM/all-food.jpg";
-const foods = [
-  {
-    foodName: "Biryani",
-    imageURL: "https://i.ibb.co/g4rb24p/biriyani.jpg",
-  },
-  {
-    foodName: "Hamburger",
-    imageURL: "https://i.ibb.co/5Gbxgpz/barger.jpg",
-  },
-  {
-    foodName: "Fish Fry",
-    imageURL: "https://i.ibb.co/mDk1sk9/seafood.jpg",
-  },
-  {
-    foodName: "Dhal Vat",
-    imageURL: "https://i.ibb.co/mz5SyrB/dal-vat.jpg",
-  },
-  {
-    foodName: "Panta Vat with Chili pepper",
-    imageURL: "https://i.ibb.co/ZB1gL3y/panta-motic.jpg",
-  },
-];
+
 const Gallery = () => {
   const { user } = useContext(AuthContext);
   const [openDialog, setOpenDialog] = useState(false);
@@ -35,9 +14,7 @@ const Gallery = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`${baseURL}/gallery`)
-      .then((res) => res.json())
-      .then((data) => setGalleryInfo(data));
+    document.title = "FoodTable | Gallery";
   }, []);
 
   const userEmail = user?.email;
@@ -74,8 +51,11 @@ const Gallery = () => {
   };
 
   useEffect(() => {
-    document.title = "FoodTable | Gallery";
-  }, []);
+    fetch(`${baseURL}/gallery`)
+      .then((res) => res.json())
+      .then((data) => setGalleryInfo(data));
+  }, [handleAddGallery]);
+
   return (
     <div>
       {" "}
@@ -150,7 +130,7 @@ const Gallery = () => {
             : navigate("/login")}
         </div>
         {/* a-9 */}
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16'>
           {galleryInfo?.map((gallery) => (
             <div key={gallery._id} className='wrapper w-[92%] mx-auto'>
               <div className='image relative'>

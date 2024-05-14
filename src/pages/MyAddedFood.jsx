@@ -12,9 +12,6 @@ const MyAddedFood = () => {
   const { user } = useContext(AuthContext);
   const userEmail = user?.email;
 
-  console.log(userEmail);
-  console.log("jumping .....");
-
   useEffect(() => {
     document.title = "FoodTable | My Listed Food";
   }, []);

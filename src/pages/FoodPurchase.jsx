@@ -103,7 +103,7 @@ const FoodPurchase = () => {
         //   navigate("/allFood");
         // }
         else {
-          console.log("try to add some food!");
+          // console.log("try to add some food!");
           fetch(`${baseURL}/orderFood`, {
             method: "POST",
             headers: {
@@ -113,7 +113,7 @@ const FoodPurchase = () => {
           })
             .then((res) => res.json())
             .then((data) => {
-              console.log(data);
+              // console.log(data);
               if (data.insertedId) {
                 fetch(`${baseURL}/increaseOrderCount/${foodForPurchase._id}`, {
                   method: "POST",

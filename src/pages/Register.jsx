@@ -52,7 +52,7 @@ const RegisterPage = () => {
       createUser(email, password)
         .then((result) => {
           axios.post(`${baseURL}/users`, data).then((res) => {
-            console.log("save user data", res.data);
+            // console.log("save user data", res.data);
           });
 
           updateProfile(result.user, {
@@ -78,7 +78,7 @@ const RegisterPage = () => {
         })
         .catch((err) => {
           notify(err.message);
-          console.log(err);
+
           setAnyError(err.message);
         });
     }
@@ -95,7 +95,7 @@ const RegisterPage = () => {
           },
           { withCredentials: true }
         );
-        console.log({ result, data });
+
         navigate(location.state ? location?.state : "/");
       })
       .catch((err) => {
