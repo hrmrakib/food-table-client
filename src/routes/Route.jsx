@@ -44,7 +44,10 @@ const router = createBrowserRouter([
             <FoodPurchase />
           </PrivateRoute>
         ),
-        loader: ({ params }) => fetch(`${baseURL}/single-food/${params.id}`),
+        loader: ({ params }) =>
+          fetch(`${baseURL}/single-food/${params.id}`, {
+            credentials: "include",
+          }),
       },
       {
         path: "/gallery",
@@ -73,7 +76,10 @@ const router = createBrowserRouter([
             <SingleFood />
           </PrivateRoute>
         ),
-        loader: ({ params }) => fetch(`${baseURL}/single-food/${params.id}`),
+        loader: ({ params }) =>
+          fetch(`${baseURL}/single-food/${params.id}`, {
+            credentials: "include",
+          }),
       },
       {
         path: "/myOrderedFood",

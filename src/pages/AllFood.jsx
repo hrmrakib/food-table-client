@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 const topBannerImg = "https://i.ibb.co/4YtYVVM/all-food.jpg";
 import { FaRegHeart } from "react-icons/fa";
@@ -10,7 +10,18 @@ import { baseURL } from "./../utils/url";
 const AllFood = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [resetBtn, setResetBtn] = useState("Reset");
   const loadedFood = useLoaderData();
+
+  useEffect(() => {
+    document.title = "FoodTable | All Food";
+  }, []);
+
+  const handleReset = () => {
+    setSearchQuery("");
+    setSearchResults([]);
+    // setResetBtn("");
+  };
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -44,12 +55,6 @@ const AllFood = () => {
       </div>
 
       <form onSubmit={handleSearch} className='max-w-md mx-auto my-14'>
-        <label
-          htmlFor='default-search'
-          className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'
-        >
-          Search
-        </label>
         <div className='relative'>
           <div className='absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none'>
             <svg
@@ -75,7 +80,7 @@ const AllFood = () => {
             placeholder='Search food...'
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            required
+            // required
           />
           <button
             type='submit'
@@ -84,10 +89,17 @@ const AllFood = () => {
             Search
           </button>
         </div>
+
+        <div className='text-right pr-3 pt-1'>
+          {
+            <button onClick={handleReset}>
+              {setSearchQuery.length === 0 ? "" : resetBtn}
+            </button>
+          }
+        </div>
       </form>
       <div className='w-[90%] mx-auto'>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 my-16'>
-          {/* ((displayReadBooks.length && displayReadBooks) || readBooks) */}
           {((searchResults.length && searchResults) || loadedFood).map(
             (food) => (
               <div key={food._id}>

@@ -20,7 +20,7 @@ const TopSelling = () => {
           Top Selling
         </button>
         <h2 className='text-2xl md:text-5xl leading-relaxed text-gray-950  font-bold text-center max-w-2xl mt-7'>
-          Visit & enjoy adventure life with full of dreams
+          Visit & take delicious food with full of customize
         </h2>
       </div>
 

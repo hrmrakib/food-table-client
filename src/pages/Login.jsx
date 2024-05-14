@@ -14,6 +14,10 @@ const LoginPage = () => {
   const location = useLocation();
 
   useEffect(() => {
+    document.title = "FoodTable | Login";
+  }, []);
+
+  useEffect(() => {
     if (user) {
       navigate("/");
     }

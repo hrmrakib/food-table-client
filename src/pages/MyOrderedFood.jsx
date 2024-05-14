@@ -16,7 +16,7 @@ const MyOrderedFood = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`${baseURL}/my-ordered-food/${userEmail}`)
+    fetch(`${baseURL}/my-ordered-food/${userEmail}`, { credentials: "include" })
       .then((res) => res.json())
       .then((data) => {
         setMyOrderedFood(data);
@@ -35,7 +35,7 @@ const MyOrderedFood = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`${baseURL}/allspot/${id}`, {
+        fetch(`${baseURL}/delete-order-food/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -48,8 +48,8 @@ const MyOrderedFood = () => {
                 showConfirmButton: false,
                 timer: 1500,
               });
-              const filtered = listedSpot.filter((spot) => spot._id !== id);
-              setListedSpot(filtered);
+              const filtered = myOrderedFood.filter((food) => food._id !== id);
+              setMyOrderedFood(filtered);
             }
           });
       }
@@ -67,13 +67,14 @@ const MyOrderedFood = () => {
   }
 
   console.log({ myOrderedFood });
+
   return (
     <div className='bg-white  min-h-screen'>
       <div className='md:w-[80%] mx-auto'>
         <div className='mb-12 mt-10'>
           <div>
             <h2 className='text-center text-3xl text-gray-900 font-bold'>
-              I have purchase this food!
+              I have purchased this food!
             </h2>
           </div>
         </div>
@@ -86,7 +87,7 @@ const MyOrderedFood = () => {
                   <th>No</th>
                   <th>Name</th>
                   <th>Price</th>
-                  <th>Duration</th>
+                  <th>Owner</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -119,16 +120,11 @@ const MyOrderedFood = () => {
                         ${food?.price}
                       </td>
                       <td className='text-gray-800  font-semibold text-lg'>
-                        {food?.category}
+                        {food?.ownerName}
                       </td>
                       <th>
-                        <Link to={`/updateMyList/${food._id}`}>
-                          <button className='bg-[#f52dd0] mr-3 text-white px-4 py-2 rounded-md'>
-                            Update
-                          </button>
-                        </Link>
                         <button
-                          onClick={() => handleDelete(spot._id)}
+                          onClick={() => handleDelete(food._id)}
                           className='bg-[#f64a2f] text-white px-4 py-2 rounded-md'
                         >
                           Delete

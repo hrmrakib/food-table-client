@@ -13,7 +13,7 @@ const MyAddedFood = () => {
   const userEmail = user?.email;
 
   useEffect(() => {
-    document.title = "FoodTable | My Listed Food";
+    document.title = "FoodTable | My Added Food";
   }, []);
 
   useEffect(() => {

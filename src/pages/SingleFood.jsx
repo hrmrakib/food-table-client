@@ -5,6 +5,10 @@ const foodImg = "https://i.ibb.co/g4rb24p/biriyani.jpg";
 const SingleFood = () => {
   const loadedFood = useLoaderData();
 
+  useEffect(() => {
+    document.title = "FoodTable | Single Food";
+  }, []);
+
   return (
     <div className='w-[90%] mx-auto my-20'>
       <div className='grid lg:grid-cols-2 gap-12'>

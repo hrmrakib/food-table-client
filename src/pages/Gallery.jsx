@@ -83,51 +83,53 @@ const Gallery = () => {
           >
             Add New
           </button>
-          {user
-            ? openDialog && (
-                <div className='flex justify-center items-center -mt-60'>
-                  <div className='relative rounded-2xl px-5 py-20 md:py-16 bg-white border md:w-[600px] mx-auto flex flex-col justify-center items-center'>
-                    <div
-                      onClick={handleCloseDialog}
-                      className='absolute text-3xl top-3 right-3 cursor-pointer'
-                    >
-                      <IoMdCloseCircleOutline />
+          <div>
+            {user
+              ? openDialog && (
+                  <div className='flex justify-center items-center -mt-60'>
+                    <div className='relative rounded-2xl px-5 py-20 md:py-16 bg-white border md:w-[600px] mx-auto flex flex-col justify-center items-center'>
+                      <div
+                        onClick={handleCloseDialog}
+                        className='absolute text-3xl top-3 right-3 cursor-pointer'
+                      >
+                        <IoMdCloseCircleOutline />
+                      </div>
+                      <form
+                        onSubmit={handleAddGallery}
+                        className='flex flex-col gap-3 w-full'
+                      >
+                        <input
+                          type='text'
+                          defaultValue={user?.displayName}
+                          readOnly
+                          className='input input-bordered input-primary w-full'
+                        />
+                        <input
+                          type='text'
+                          name='imageURL'
+                          placeholder='Give image url'
+                          required
+                          className='input input-bordered input-primary w-full'
+                        />
+
+                        <input
+                          type='text'
+                          name='feedback'
+                          placeholder='Feedback or experience description'
+                          required
+                          maxLength={20 * 10}
+                          className='input input-bordered input-secondary w-full'
+                        />
+
+                        <button className='btn btn-success text-white text-xl'>
+                          Add New One
+                        </button>
+                      </form>
                     </div>
-                    <form
-                      onSubmit={handleAddGallery}
-                      className='flex flex-col gap-3 w-full'
-                    >
-                      <input
-                        type='text'
-                        defaultValue={user?.displayName}
-                        readOnly
-                        className='input input-bordered input-primary w-full'
-                      />
-                      <input
-                        type='text'
-                        name='imageURL'
-                        placeholder='Give image url'
-                        required
-                        className='input input-bordered input-primary w-full'
-                      />
-
-                      <input
-                        type='text'
-                        name='feedback'
-                        placeholder='Feedback or experience description'
-                        required
-                        maxLength={20 * 10}
-                        className='input input-bordered input-secondary w-full'
-                      />
-
-                      <button className='btn btn-success text-white text-xl'>
-                        Add New One
-                      </button>
-                    </form>
                   </div>
-                </div>
-              )
-            : navigate("/login")}
+                )
+              : navigate("/login")}
+          </div>
         </div>
         {/* a-9 */}
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16'>

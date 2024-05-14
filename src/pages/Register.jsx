@@ -19,6 +19,10 @@ const RegisterPage = () => {
   const location = useLocation();
 
   useEffect(() => {
+    document.title = "FoodTable | Register";
+  }, []);
+
+  useEffect(() => {
     if (user) {
       navigate("/");
     }
@@ -33,6 +37,7 @@ const RegisterPage = () => {
   const onSubmit = (data) => {
     const { displayName, password, email, photoURL } = data;
 
+    console.log(displayName, password, email, photoURL);
     if (!/[A-Z]/.test(password)) {
       setPasswordError("");
       setPasswordError("Password must have at least one uppercase letter");
@@ -51,19 +56,16 @@ const RegisterPage = () => {
 
       createUser(email, password)
         .then((result) => {
-          axios.post(`${baseURL}/users`, data).then((res) => {
-            // console.log("save user data", res.data);
-          });
-
           updateProfile(result.user, {
-            displayName: displayName,
-            photoURL: photoURL,
+            displayName,
+            photoURL,
           }).then(() => {
             setUser({
-              displayName: displayName,
-              photoURL: photoURL,
-              email: email,
+              displayName,
+              photoURL,
+              email,
             });
+            axios.post(`${baseURL}/users`, data);
           });
 
           navigate(location.state ? location?.state : "/", { replace: true });
