@@ -11,7 +11,8 @@ import { baseURL } from "../utils/url";
 import Loading from "../components/Loading";
 
 const RegisterPage = () => {
-  const { createUser, setUser, user, loading } = useContext(AuthContext);
+  const { createUser, setUser, user, loading, googleSignIn } =
+    useContext(AuthContext);
   const [passwordError, setPasswordError] = useState("");
   const [anyError, setAnyError] = useState("");
   const [inputPassword, setInputPassword] = useState(true);
@@ -55,8 +56,8 @@ const RegisterPage = () => {
       setAnyError("");
 
       createUser(email, password)
-        .then((result) => {
-          updateProfile(result.user, {
+        .then(async (result) => {
+          await updateProfile(result.user, {
             displayName,
             photoURL,
           }).then(() => {
@@ -86,18 +87,10 @@ const RegisterPage = () => {
     }
   };
 
-  const handleGoogleSignIn = () => {
+  const handleGoogleSignIn = async () => {
     setAnyError("");
-    const result = googleSignIn()
-      .then(async () => {
-        const { data } = await axios.post(
-          `${baseURL}/jwt`,
-          {
-            email: result?.user?.email,
-          },
-          { withCredentials: true }
-        );
-
+    await googleSignIn()
+      .then(() => {
         navigate(location.state ? location?.state : "/");
       })
       .catch((err) => {

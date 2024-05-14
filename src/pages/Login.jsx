@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../Contexts/AuthContextProvider";
 import axios from "axios";
 import { baseURL } from "../utils/url";
+import Loading from "./../components/Loading";
 
 const LoginPage = () => {
   const { signIn, googleSignIn, user, loading } = useContext(AuthContext);
@@ -16,12 +17,6 @@ const LoginPage = () => {
   useEffect(() => {
     document.title = "FoodTable | Login";
   }, []);
-
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, [navigate, user]);
 
   const {
     register,
@@ -56,7 +51,7 @@ const LoginPage = () => {
   };
 
   // google signin
-  const handleGoogleSignIn = () => {
+  const handleGoogleSignIn = async () => {
     setAuthError("");
     googleSignIn()
       .then(() => {
@@ -67,7 +62,9 @@ const LoginPage = () => {
       });
   };
 
-  if (user || loading) return;
+  // if (user || loading) return;
+  if (loading) return <Loading />;
+  if (user) return navigate("/");
 
   return (
     <div className='w-full bg-white my-16'>
