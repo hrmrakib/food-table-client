@@ -1,4 +1,4 @@
-# React + Vite
+# [Live Preview](https://food-table-restaurant.web.app/)
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
