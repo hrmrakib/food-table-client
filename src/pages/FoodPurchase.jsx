@@ -18,6 +18,9 @@ const FoodPurchase = () => {
 
   const foodForPurchase = useLoaderData();
 
+  const foodOwner = foodForPurchase.userName;
+  console.log(foodOwner);
+
   useEffect(() => {
     document.title = "FoodTable | Purchase Food";
   }, []);
@@ -72,6 +75,7 @@ const FoodPurchase = () => {
       foodName,
       price,
       quantity,
+      foodOwner,
       foodId: foodForPurchase._id,
       imageURL: foodForPurchase.imageURL,
     };
@@ -90,19 +94,16 @@ const FoodPurchase = () => {
           });
           navigate("/allFood");
         }
-        // has a bug below code (one user buy this food, another user can't buy)
-
-        // else if (existOrderId === parseInt(foodForPurchase._id)) {
-        //   Swal.fire({
-        //     position: "top",
-        //     icon: "warning",
-        //     title: "Already Purchased this food!",
-        //     showConfirmButton: false,
-        //     timer: 3500,
-        //   });
-        //   navigate("/allFood");
-        // }
-        else {
+        if (foodForPurchase.quantity < quantity) {
+          Swal.fire({
+            position: "top",
+            icon: "warning",
+            title: "Can't buy more than quantity!",
+            showConfirmButton: false,
+            timer: 3500,
+          });
+          return;
+        } else {
           // console.log("try to add some food!");
           fetch(`${baseURL}/orderFood`, {
             method: "POST",
@@ -192,7 +193,6 @@ const FoodPurchase = () => {
                   type='text'
                   {...register("quantity", { required: true })}
                   defaultValue={foodForPurchase.quantity}
-                  readOnly
                   className='px-4 py-1 w-full focus:outline-0 text-black  bg-white rounded-md '
                 />
               </fieldset>

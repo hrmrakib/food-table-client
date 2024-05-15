@@ -7,7 +7,7 @@ import { baseURL } from "../utils/url";
 import Swal from "sweetalert2";
 import Loading from "../components/Loading";
 
-const topBannerImg = "https://i.ibb.co/4YtYVVM/all-food.jpg";
+const topBannerImg = "https://i.ibb.co/pZ24Cj3/food-gallery.jpg";
 
 const Gallery = () => {
   const { user, loading } = useContext(AuthContext);
@@ -87,7 +87,7 @@ const Gallery = () => {
             WIDE OPTIONS OF CHOICE
           </p>
           <h2 className='text-2xl lg:text-5xl font-bold text-white my-2 lg:my-6'>
-            All Delicious Food Menu
+            Delicious Food with Feedback
           </h2>
         </div>
       </div>

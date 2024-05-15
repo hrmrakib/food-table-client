@@ -87,6 +87,7 @@ const MyOrderedFood = () => {
                   <th>No</th>
                   <th>Name</th>
                   <th>Price</th>
+                  <th>Order Time</th>
                   <th>Owner</th>
                   <th>Action</th>
                 </tr>
@@ -120,7 +121,10 @@ const MyOrderedFood = () => {
                         ${food?.price}
                       </td>
                       <td className='text-gray-800  font-semibold text-lg'>
-                        {food?.ownerName}
+                        ${food?.buyingDate}
+                      </td>
+                      <td className='text-gray-800  font-semibold text-lg'>
+                        {food?.foodOwner}
                       </td>
                       <th>
                         <button
