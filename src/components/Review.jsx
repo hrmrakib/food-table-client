@@ -143,10 +143,14 @@ const Review = () => {
       <div className='mb-10'>
         <div className='h-10'>
           <div className='text-center '>
-            {user && (
+            {user ? (
               <button onClick={handleOpenDialog} className=' btn btn-outline'>
                 Place a review
               </button>
+            ) : (
+              <Link to='/login'>
+                <button className='btn btn-outline'>Place a review</button>
+              </Link>
             )}
           </div>
           {/* custom modal */}
