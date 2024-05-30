@@ -53,6 +53,7 @@ const router = createBrowserRouter([
         path: "/gallery",
         element: <Gallery />,
       },
+
       {
         path: "/addFoodItem",
         element: (

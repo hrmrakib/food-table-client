@@ -10,6 +10,7 @@ const ErrorPage = () => {
   return (
     <>
       <div className='bg-[url("https://i.ibb.co/W2vRqyc/5191984.jpg")] bg-no-repeat bg-center bg-auto  h-screen flex flex-col justify-center items-center bg-white'>
+        <h2 className='text-3xl font-bold mb-3'>Not Found!</h2>
         <Link to='/' className='mt-80'>
           <button
             type='button'

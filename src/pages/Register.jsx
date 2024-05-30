@@ -38,7 +38,7 @@ const RegisterPage = () => {
   const onSubmit = (data) => {
     const { displayName, password, email, photoURL } = data;
 
-    console.log(displayName, password, email, photoURL);
+    // console.log(displayName, password, email, photoURL);
     if (!/[A-Z]/.test(password)) {
       setPasswordError("");
       setPasswordError("Password must have at least one uppercase letter");

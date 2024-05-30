@@ -66,7 +66,7 @@ const MyOrderedFood = () => {
     );
   }
 
-  console.log({ myOrderedFood });
+  // console.log({ myOrderedFood });
 
   return (
     <div className='bg-white  min-h-screen'>

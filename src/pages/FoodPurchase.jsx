@@ -19,7 +19,7 @@ const FoodPurchase = () => {
   const foodForPurchase = useLoaderData();
 
   const foodOwner = foodForPurchase.userName;
-  console.log(foodOwner);
+  // console.log(foodOwner);
 
   useEffect(() => {
     document.title = "FoodTable | Purchase Food";
@@ -80,6 +80,8 @@ const FoodPurchase = () => {
       imageURL: foodForPurchase.imageURL,
     };
 
+    console.log(parseInt(quantity));
+
     fetch(`${baseURL}/findEmail/${foodForPurchase._id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -103,6 +105,16 @@ const FoodPurchase = () => {
             timer: 3500,
           });
           return;
+        }
+        if (0 >= parseInt(quantity)) {
+          Swal.fire({
+            position: "top",
+            icon: "warning",
+            title: "At least order a single product!",
+            showConfirmButton: false,
+            timer: 3500,
+          });
+          return;
         } else {
           // console.log("try to add some food!");
           fetch(`${baseURL}/orderFood`, {
@@ -121,7 +133,9 @@ const FoodPurchase = () => {
                   headers: {
                     "Content-Type": "application/json",
                   },
-                }).then((res) => console.log(res.ok));
+                }).then((res) => {
+                  // console.log(res.ok);
+                });
 
                 Swal.fire({
                   position: "top",
@@ -190,9 +204,10 @@ const FoodPurchase = () => {
                   Quantity
                 </legend>
                 <input
-                  type='text'
+                  type='number'
                   {...register("quantity", { required: true })}
-                  defaultValue={foodForPurchase.quantity}
+                  // defaultValue={foodForPurchase.quantity}
+                  placeholder='How much do you want to buy?'
                   className='px-4 py-1 w-full focus:outline-0 text-black  bg-white rounded-md '
                 />
               </fieldset>

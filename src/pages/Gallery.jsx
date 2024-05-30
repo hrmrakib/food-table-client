@@ -59,7 +59,7 @@ const Gallery = () => {
     if (user) {
       setOpenDialog(true);
     } else {
-      return navigate("/");
+      return navigate("/login");
     }
   };
 

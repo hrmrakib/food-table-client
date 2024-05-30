@@ -12,7 +12,7 @@ const AddFoodItem = () => {
   const getUserEmail = user?.email;
   const getUserName = user?.displayName;
 
-  console.log(getUserEmail, getUserName);
+  // console.log(getUserEmail, getUserName);
 
   useEffect(() => {
     document.title = "FoodTable | Add New Food";
